@@ -40,8 +40,8 @@ public class BasketBall_spot : MonoBehaviour
     [SerializeField] private int defense = 0;
     [SerializeField] private int index;
     [SerializeField] private AudioClip spotTouchedSound;
-    
 
+    private bool closeEnough = false;
     private AudioSource audioSource;
 
     //private string path;
@@ -93,35 +93,51 @@ public class BasketBall_spot : MonoBehaviour
         position = transform.position;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            closeEnough = true;
+        }
+    }
+
     //Checking if the currently active scene contains a BasketBallGOSceneManager on the tapped spot
     private void OnMouseDown()
     {
-
-        audioSource.PlayOneShot(spotTouchedSound);
-
-        Destroy(gameObject); //Delete sprite
-
-        for(int i = 0; i < BasketSpotsFactory.liveSpots.Count; i++)
+        if (closeEnough)
         {
-            if(BasketSpotsFactory.liveSpots[i].position == this.position)
+            audioSource.PlayOneShot(spotTouchedSound);
+
+            Destroy(gameObject); //Delete sprite
+
+            for (int i = 0; i < BasketSpotsFactory.liveSpots.Count; i++)
             {
-                Debug.Log("El spot a eliminar està a la posició " + i);
-                BasketSpotsFactory.listaI.RemoveAt(BasketSpotsFactory.listaI[i]);
-                
+                if (BasketSpotsFactory.liveSpots[i].position == this.position)
+                {
+                    Debug.Log("El spot a eliminar està a la posició " + i);
+                    BasketSpotsFactory.listaI.RemoveAt(BasketSpotsFactory.listaI[i]);
+
+                    //Deleting from saved data
+                    PlayerPrefs.DeleteKey("posX697" + i.ToString());
+                    PlayerPrefs.DeleteKey("posY697" + i.ToString());
+                    PlayerPrefs.DeleteKey("posZ697" + i.ToString());
+                }
             }
+
+            BasketSpotsFactory.liveSpots.Remove(this); //Delete from current spots on scene
+
+            BasketSpotsFactory.contador--; //Delete from file
+            Debug.Log(BasketSpotsFactory.contador);
+            // BasketSpotsFactory.index--;
+
+            //Updating the spots number
+            PlayerPrefs.SetInt("spots697", BasketSpotsFactory.contador); //Update for the new scene
+            PlayerPrefs.Save();
+
+            closeEnough = false;
+
+            SceneManager.LoadScene(1); //Going to basketball scene
         }
-
-        BasketSpotsFactory.liveSpots.Remove(this); //Delete from current spots on scene
-
-       // BasketSpotsFactory.contador--; //Delete from file
-        Debug.Log(BasketSpotsFactory.contador);
-       // BasketSpotsFactory.index--;
-
-        //Updating the spots number
-        PlayerPrefs.SetInt("spots631",BasketSpotsFactory.contador); //Update for the new scene
-        PlayerPrefs.Save();
-
-        SceneManager.LoadScene(1); //Going to basketball scene
     }
 
 }

@@ -12,7 +12,6 @@ public class BasketSpotsFactory : Singleton<BasketSpotsFactory>
 {
 
     [SerializeField] private BasketBall_spot basketballGameSpot; //BasketBall spot we're spawning
-    //[SerializeField] private float waitTime = 3600.0f; //How long we'll wait before generating spots (every 1 hour)
     [SerializeField] private int maximumSpots = 50; //Initial number of spots created
     [SerializeField] private float minRange = 5.0f; //Minimum range for the spots to appear
     [SerializeField] private float maxRange = 50.0f; //Maximum range for the spots to appear
@@ -71,24 +70,24 @@ public class BasketSpotsFactory : Singleton<BasketSpotsFactory>
 
         last_player_pos = playerCoords.transform.position; //Last position of the player
 
-        firstTime = PlayerPrefs.GetInt("savedFirstTime631"); //First time player playing the game ?
+        firstTime = PlayerPrefs.GetInt("savedFirstTime697"); //First time player playing the game ?
 
         i = 0;
         index = 0;
         newI = 0;
 
-        liveSpots.Clear();
-        contador = PlayerPrefs.GetInt("spots631", 0);
+        liveSpots.Clear(); //Resetting the live spots
+        contador = PlayerPrefs.GetInt("spots697", 0);
 
 
         //First time player runnig the game
         if (firstTime == 0)
         {
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 10; i++)
             {
-                Debug.Log("Els 5 primers");
+                Debug.Log("Els 10 primers");
                 InstantiateSpot();
-                PlayerPrefs.SetInt("spots631", liveSpots.Count);
+                PlayerPrefs.SetInt("spots697", liveSpots.Count);
             }
         }
 
@@ -98,36 +97,11 @@ public class BasketSpotsFactory : Singleton<BasketSpotsFactory>
 
             for (int j = 0; j < contador; j++)
             {
-             
-                if (listaI.Contains(j))
-                {
-                    // Debug.Log("Te l'indice" + j);
-                    Debug.Log("iii" + i);
-
-                    float x = player.transform.position.x + GenerateRange(); //From the player position adding a random range
-                    float y = player.transform.position.y + 2.0f;
-                    float z = player.transform.position.z + GenerateRange(); //From the player position adding a random range
-                    liveSpots.Add(Instantiate(basketballGameSpot, new Vector3(PlayerPrefs.GetFloat("posX631" + i.ToString(), x), PlayerPrefs.GetFloat("posY631" + i.ToString(), y), PlayerPrefs.GetFloat("posZ631" + i.ToString(), z)), Quaternion.identity));
-
-                    PlayerPrefs.SetFloat("posX631" + i.ToString(), liveSpots[index].Position.x);
-                    PlayerPrefs.SetFloat("posY631" + i.ToString(), liveSpots[index].Position.y);
-                    PlayerPrefs.SetFloat("posZ631" + i.ToString(), liveSpots[index].Position.z);
-
-                    //listaI.Add(i);
-
-                    i++;
-                    index++;
-                    PlayerPrefs.Save();
-
-                }
-                else
-                {
-                    //Debug.Log("No té l'indice, no el poso" + j);
-                    //i++;
-                }
-
+                Debug.Log("iii" + i);
+                InstantiateSpot();
             }
-            PlayerPrefs.SetInt("spots631", liveSpots.Count);
+
+            PlayerPrefs.SetInt("spots697", liveSpots.Count);
 
             Debug.Log("Live spooots" + liveSpots.Count);
             Debug.Log("contadooor" + contador);
@@ -159,7 +133,8 @@ public class BasketSpotsFactory : Singleton<BasketSpotsFactory>
         }
         //else if (liveSpots.Count == 0 & Timer.secondsLeft > 0) //
         //{
-        //    Debug.Log("A esperar brother");
+        //    //Debug.Log("A esperar brother");
+        //    ;
         //}
         else if (liveSpots.Count == 0)
         {
@@ -169,16 +144,14 @@ public class BasketSpotsFactory : Singleton<BasketSpotsFactory>
 
         StartCoroutine(waitASecondBeforeUpdate());
        
-
-
     }
 
     private bool AreCheckpointsReady() //Check if we reach 0
     {           
-        contador = PlayerPrefs.GetInt("spots631", 0);
+        contador = PlayerPrefs.GetInt("spots697", 0);
          
         //Fins que no estem al tope de checkpoints---------------------------------
-        if (PlayerPrefs.GetInt("spots631", 0) < maximumSpots)
+        if (PlayerPrefs.GetInt("spots697", 0) < maximumSpots)
         {
 
             if (firstTime != 0 & contador <= 45 & liveSpots.Count != 0) //Estan a l'escena i en hi ha 45 max
@@ -190,7 +163,7 @@ public class BasketSpotsFactory : Singleton<BasketSpotsFactory>
                     Debug.Log("estem a 45 o menys poso 5");
                     InstantiateSpot();
                     contador += 1;
-                    PlayerPrefs.SetInt("spots631", liveSpots.Count);
+                    PlayerPrefs.SetInt("spots697", liveSpots.Count);
                 }
                 //yield return new WaitForSeconds(waitTime);
             }
@@ -198,14 +171,13 @@ public class BasketSpotsFactory : Singleton<BasketSpotsFactory>
             else if (liveSpots.Count == 0 & moreSpots == true) //No estan a l'escena i ha passat 1 hora (+5 dispo)
             {
                 int newContador = contador + 5;
-                //i++;
                 for (int i = 0; i < newContador; i++)
                 {
                     Debug.Log("en tinc de disponibles i acabo d'entrar a l'app amb spots de recompensa");
-                    //contador += 1;
                     InstantiateSpot();
-                    PlayerPrefs.SetInt("spots631", liveSpots.Count);
+                    PlayerPrefs.SetInt("spots697", liveSpots.Count);
                 }
+                contador += 5;
             }
 
             else if (liveSpots.Count == 0) //No estan a l'escena i no ha passat 1 hora encara
@@ -214,12 +186,9 @@ public class BasketSpotsFactory : Singleton<BasketSpotsFactory>
                 {
                     Debug.Log("en tinc de disponibles i acabo d'entrar a l'app");
                     InstantiateSpot();
-                    PlayerPrefs.SetInt("spots631", liveSpots.Count);
+                    PlayerPrefs.SetInt("spots697", liveSpots.Count);
                 }
             }
-
-        
-
 
             else
             {
@@ -228,7 +197,7 @@ public class BasketSpotsFactory : Singleton<BasketSpotsFactory>
 
             PlayerPrefs.Save();
             firstTime = 1;
-            PlayerPrefs.SetInt("savedFirstTime631", firstTime);
+            PlayerPrefs.SetInt("savedFirstTime697", firstTime);
             moreSpots = false;
 
         }
@@ -243,7 +212,7 @@ public class BasketSpotsFactory : Singleton<BasketSpotsFactory>
                 {
                     Debug.Log("DDDDDDD");
                     InstantiateSpot();
-                    PlayerPrefs.SetInt("spots631", liveSpots.Count);
+                    PlayerPrefs.SetInt("spots697", liveSpots.Count);
                 }
             }
             else
@@ -270,17 +239,19 @@ public class BasketSpotsFactory : Singleton<BasketSpotsFactory>
         float x = player.transform.position.x + GenerateRange(); //From the player position adding a random range
         float y = player.transform.position.y + 2.0f;
         float z = player.transform.position.z + GenerateRange(); //From the player position adding a random range
-        liveSpots.Add(Instantiate(basketballGameSpot, new Vector3(PlayerPrefs.GetFloat("posX631" + i.ToString(), x), PlayerPrefs.GetFloat("posY631" + i.ToString(), y), PlayerPrefs.GetFloat("posZ631" + i.ToString(), z)), Quaternion.identity));
+        liveSpots.Add(Instantiate(basketballGameSpot, new Vector3(PlayerPrefs.GetFloat("posX697" + i.ToString(), x), PlayerPrefs.GetFloat("posY697" + i.ToString(), y), PlayerPrefs.GetFloat("posZ697" + i.ToString(), z)), Quaternion.identity));
 
-        PlayerPrefs.SetFloat("posX631" + i.ToString(), liveSpots[index].Position.x);
-        PlayerPrefs.SetFloat("posY631" + i.ToString(), liveSpots[index].Position.y);
-        PlayerPrefs.SetFloat("posZ631" + i.ToString(), liveSpots[index].Position.z);
+        PlayerPrefs.SetFloat("posX697" + i.ToString(), liveSpots[index].Position.x);
+        PlayerPrefs.SetFloat("posY697" + i.ToString(), liveSpots[index].Position.y);
+        PlayerPrefs.SetFloat("posZ697" + i.ToString(), liveSpots[index].Position.z);
 
-        listaI.Add(i);
+        listaI.Add(i); //Add the index to the indexes list
 
         i++;
         index++;
-        PlayerPrefs.Save();       
+        PlayerPrefs.Save();
+
+
 
        
     }
@@ -314,13 +285,15 @@ public class BasketSpotsFactory : Singleton<BasketSpotsFactory>
         yield return new WaitForSeconds(1f);
     }
 
+    
     private void OnApplicationQuit()
     {
+        //Updating new positions and indexes of the spots
         for(int k = 0; k < liveSpots.Count; k++)
         {
-            PlayerPrefs.SetFloat("posX631" + k.ToString(), liveSpots[k].Position.x);
-            PlayerPrefs.SetFloat("posY631" + k.ToString(), liveSpots[k].Position.y);
-            PlayerPrefs.SetFloat("posZ631" + k.ToString(), liveSpots[k].Position.z);
+            PlayerPrefs.SetFloat("posX697" + k.ToString(), liveSpots[k].Position.x);
+            PlayerPrefs.SetFloat("posY697" + k.ToString(), liveSpots[k].Position.y);
+            PlayerPrefs.SetFloat("posZ697" + k.ToString(), liveSpots[k].Position.z);
         }
 
     }
@@ -332,7 +305,7 @@ public class BasketSpotsFactory : Singleton<BasketSpotsFactory>
 
 /* Recordatori !
  * Canvia nom de PlayerPrefs a :
- * BasketBall_spot : PlayerPrefs.SetInt("spots631")
- * BasketSpotsFactory : "posX631"; "savedFirstTime631"; "spots173"
+ * BasketBall_spot : PlayerPrefs.SetInt("spots697")
+ * BasketSpotsFactory : "posX697"; "savedFirstTime697"; "spots173"
  * Timer : "horaAdeu3", "tempsTotal30"
  */

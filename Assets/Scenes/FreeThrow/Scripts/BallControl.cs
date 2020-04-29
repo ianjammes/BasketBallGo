@@ -28,7 +28,7 @@ public class BallControl : MonoBehaviour
     private bool throwStarted = false;
     private bool firsTime;
     public static bool movingScene = false;
-    private int shotsLeft = 1;
+    private int shotsLeft = 5;
     public static float distHoopCam; //Distance between hoop and player
     private float finalPosition;
     public static int finalBallValue = 0;

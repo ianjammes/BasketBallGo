@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class Timer : MonoBehaviour
 {
 
-    public static float msToWait = 60000; 
+    public static float msToWait = 120000; 
 
     private Text timerText;
     private ulong hourGet0s;
@@ -28,7 +28,7 @@ public class Timer : MonoBehaviour
         //sinceLastTime = (horaActual - ulong.Parse(PlayerPrefs.GetString("horaAdeu151").ToString())) / TimeSpan.TicksPerMillisecond;
 
         //Time
-        hourGet0s = ulong.Parse(PlayerPrefs.GetString("click275"));
+        hourGet0s = ulong.Parse(PlayerPrefs.GetString("click342"));
 
         //Getting total time player out of the app
         //tempsForaTotal = PlayerPrefs.GetInt("tempsForatotal49");
@@ -66,7 +66,7 @@ public class Timer : MonoBehaviour
     public void resetTimer() 
     {
         hourGet0s = (ulong)DateTime.Now.Ticks; //Canviat aixoooo 
-        PlayerPrefs.SetString("click275", hourGet0s.ToString());
+        PlayerPrefs.SetString("click342", hourGet0s.ToString());
     }
 
     private bool AreCheckpointsReady() //Check if we reach 0
