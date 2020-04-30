@@ -34,11 +34,6 @@ public class BasketBall_spot : MonoBehaviour
 
     ////--------------------------------------------------------------------------
 
-    [SerializeField] private float spawnRate = 0.10f; //How often they spawn
-    [SerializeField] private float catchRate = 0.10f;
-    [SerializeField] private int attack = 0; //Damgage of the attack
-    [SerializeField] private int defense = 0;
-    [SerializeField] private int index;
     [SerializeField] private AudioClip spotTouchedSound;
 
     private bool closeEnough = false;
@@ -47,31 +42,6 @@ public class BasketBall_spot : MonoBehaviour
     //private string path;
 
     //Getters-----------------------------------------------
-    public float SpawnRate
-    {
-        get { return spawnRate; }
-    }
-
-    public float CatchRate
-    {
-        get { return catchRate; }
-    }
-
-    public int Attack
-    {
-        get { return attack; }
-    }
-
-    public int Defense
-    {
-        get { return defense; }
-    }
-
-    public int Index
-    {
-        get { return index; }
-    }
-
     public Vector3 Position
     {
         get { return position; }
@@ -118,9 +88,9 @@ public class BasketBall_spot : MonoBehaviour
                     BasketSpotsFactory.listaI.RemoveAt(BasketSpotsFactory.listaI[i]);
 
                     //Deleting from saved data
-                    PlayerPrefs.DeleteKey("posX697" + i.ToString());
-                    PlayerPrefs.DeleteKey("posY697" + i.ToString());
-                    PlayerPrefs.DeleteKey("posZ697" + i.ToString());
+                    PlayerPrefs.DeleteKey("posX707" + i.ToString());
+                    PlayerPrefs.DeleteKey("posY707" + i.ToString());
+                    PlayerPrefs.DeleteKey("posZ707" + i.ToString());
                 }
             }
 
@@ -128,10 +98,9 @@ public class BasketBall_spot : MonoBehaviour
 
             BasketSpotsFactory.contador--; //Delete from file
             Debug.Log(BasketSpotsFactory.contador);
-            // BasketSpotsFactory.index--;
 
             //Updating the spots number
-            PlayerPrefs.SetInt("spots697", BasketSpotsFactory.contador); //Update for the new scene
+            PlayerPrefs.SetInt("spots707", BasketSpotsFactory.contador); //Update for the new scene
             PlayerPrefs.Save();
 
             closeEnough = false;

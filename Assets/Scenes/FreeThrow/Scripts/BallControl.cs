@@ -28,10 +28,12 @@ public class BallControl : MonoBehaviour
     private bool throwStarted = false;
     private bool firsTime;
     public static bool movingScene = false;
-    private int shotsLeft = 5;
+    private int shotsLeft = 10;
     public static float distHoopCam; //Distance between hoop and player
     private float finalPosition;
     public static int finalBallValue = 0;
+
+
 
 
     [SerializeField] GameObject ARCam;
@@ -43,9 +45,6 @@ public class BallControl : MonoBehaviour
     private Transform hoopPos;
 
 
-
-
-
     private void Start()
     {
         rb = gameObject.GetComponent<Rigidbody>();
@@ -53,6 +52,8 @@ public class BallControl : MonoBehaviour
         ARCam = sessionOrigin.transform.Find("AR Camera").gameObject;
         transform.parent = ARCam.transform; //Position is where the camera is
         trailObject = GameObject.Find("Trail").GetComponent<ParticleSystem>();
+       
+        
         firsTime = true;
         trailObject.Play(false);
         ResetBall();
@@ -65,64 +66,69 @@ public class BallControl : MonoBehaviour
 
     private void Update()
     {
-
+     
         //Just touched the screen, the throw will start
-        if (Input.GetMouseButtonDown(0) & firsTime == false) //When we press
-        {
-            startPosition = Input.mousePosition;
-            startTime = Time.time;
-            throwStarted = true;
-            directionChosen = false;
+        if (firsTime == false) { 
+            if (Input.GetMouseButtonDown(0)) //When we press
+            {
+                startPosition = Input.mousePosition;
+                startTime = Time.time;
+                throwStarted = true;
+                directionChosen = false;
+            }
+            //Touch with the screen ended, this will throw the ball
+            else if (Input.GetMouseButtonUp(0)) //When we release
+            {
+                endTime = Time.time; //Time we release the finger
+                duration = endTime - startTime;
+                direction = Input.mousePosition - startPosition; //Where we released finger - start finger position
+                directionChosen = true;
+            }
+
+            //If direction was chosen the ball is released
+            if (directionChosen)
+            {
+                rb.mass = 1;
+                rb.useGravity = true;
+                trailObject.Play(true);
+
+                rb.AddForce(
+                    ARCam.transform.forward * throwForce / duration +
+                    ARCam.transform.up * direction.y * throwDirectionY +
+                    ARCam.transform.right * direction.x * throwDirectionX);
+
+                startTime = 0.0f;
+                duration = 0.0f;
+
+                startPosition = new Vector3(0, 0, 0);
+                direction = new Vector3(0, 0, 0);
+                throwStarted = false;
+                directionChosen = false;
+                shotsLeft--;
+
+                //Setting the ball value for the shot
+                finalPosition = distHoopCam;
+
+                if (finalPosition <= 4.0f)
+                {
+                    //Ball value is 1 point
+                    finalBallValue = 1;
+                }
+                else if (finalPosition > 4.0f & finalPosition <= 7.0f)
+                {
+                    //Ball value is 2 point
+                    finalBallValue = 2;
+                }
+                else
+                {
+                    //Ball value is 3 point
+                    finalBallValue = 3;
+                }
+            }
         }
-        //Touch with the screen ended, this will throw the ball
-        else if (Input.GetMouseButtonUp(0) & firsTime == false) //When we release
+        else
         {
-            endTime = Time.time; //Time we release the finger
-            duration = endTime - startTime;
-            direction = Input.mousePosition - startPosition; //Where we released finger - start finger position
-            directionChosen = true;
-        }
-
-        //If direction was chosen the ball is released
-        if (directionChosen)
-        {
-            rb.mass = 1;
-            rb.useGravity = true;
-            trailObject.Play(true);
-
-            rb.AddForce(
-                ARCam.transform.forward * throwForce / duration +
-                ARCam.transform.up * direction.y * throwDirectionY +
-                ARCam.transform.right * direction.x * throwDirectionX);
-
-            startTime = 0.0f;
-            duration = 0.0f;
-
-            startPosition = new Vector3(0, 0, 0);
-            direction = new Vector3(0, 0, 0);
-            throwStarted = false;
-            directionChosen = false;
-            shotsLeft--;
-
-            //Setting the ball value for the shot
-            finalPosition = distHoopCam;
-
-            if (finalPosition <= 4.0f)
-            {
-                //Ball value is 1 point
-                finalBallValue = 1;
-            }
-            else if (finalPosition > 4.0f & finalPosition <= 7.0f)
-            {
-                //Ball value is 2 point
-                finalBallValue = 2;
-            }
-            else
-            {
-                //Ball value is 3 point
-                finalBallValue = 3;
-            }
-
+            StartCoroutine(waitToStart());
         }
 
         //5 seconds after throwing the ball, we reset its position
@@ -134,20 +140,18 @@ public class BallControl : MonoBehaviour
             }
             else
             {
-                //Move to the main scene
-                movingScene = true;
-                SceneManager.LoadScene(0);
-
+                //Final summary scene
+                PlaceHoop.summary.SetActive(true);
+                PlaceHoop.totalPoints.text = "+" + ballScored.scoreRound.ToString();
             }
+        }
+
+
+        distHoopCam = PlaceHoop.spawnedHoop.transform.position.z - gameObject.transform.position.z; //Distance to the hoop
+        //distHoopCam = hoopPos.transform.position.z - gameObject.transform.position.z; //Test computer
+
+
     }
-
-
-        //distHoopCam = PlaceHoop.spawnedHoop.transform.position.z - gameObject.transform.position.z; //Distance to the hoop
-        distHoopCam = hoopPos.transform.position.z - gameObject.transform.position.z; //Test computer
-
-        firsTime = false;
-    }
-
 
 
     public void ResetBall()
@@ -166,5 +170,17 @@ public class BallControl : MonoBehaviour
 
         transform.position = ballPos;
         finalBallValue = 0;
+    }
+
+    public void MoveBackToMap()
+    {
+        movingScene = true;
+        SceneManager.LoadScene(0);
+    }
+
+    IEnumerator waitToStart()
+    {
+        yield return new WaitForSeconds(2);
+        firsTime = false;
     }
 }

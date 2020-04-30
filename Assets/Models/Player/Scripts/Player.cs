@@ -31,11 +31,6 @@ public class Player : MonoBehaviour
         get { return levelBase; }
     }
 
-    //public List<GameObject> Spots 
-    //{
-    //    get { return spots; }
-    //}
-
     public int Lvl
     {
         get { return lvl; }
@@ -45,7 +40,6 @@ public class Player : MonoBehaviour
     private void Start()
     {
         path = Application.persistentDataPath + "/player1.dat";
-        //InitLevelData();
         Load();
     }
 
@@ -55,13 +49,6 @@ public class Player : MonoBehaviour
         InitLevelData();
         Save();
     }
-
-    //public void AddSpot(GameObject spot)
-    //{
-    //    if(spot)
-    //        Spots.Add(spot);
-    //    Save();
-    //}
 
     //Set up our level and experience
     private void InitLevelData() 

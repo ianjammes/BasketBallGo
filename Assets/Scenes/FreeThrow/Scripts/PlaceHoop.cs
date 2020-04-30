@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
@@ -46,6 +47,12 @@ public class PlaceHoop : MonoBehaviour
 
     private bool isPlaced = false;
 
+    public static Text scoredText;
+
+
+    public static GameObject summary;
+    public static Text totalPoints;
+
     ARRaycastManager m_RaycastManager;
 
     static List<ARRaycastHit> s_Hits = new List<ARRaycastHit>();
@@ -53,6 +60,13 @@ public class PlaceHoop : MonoBehaviour
     void Awake()
     {
         m_RaycastManager = GetComponent<ARRaycastManager>();
+
+        scoredText = GameObject.Find("Scored Text").GetComponent<Text>();
+        scoredText.enabled = false;
+
+        summary = GameObject.Find("Summary");
+        totalPoints = GameObject.Find("Total Points").GetComponent<Text>();
+        summary.SetActive(false);
     }
 
     void Update()

@@ -11,7 +11,6 @@ public class PlayerData
     private int requiredXp;
     private int levelBase;
     private int lvl;
-    //private List<BasketBall_spotData> spots;
 
     //Getters-------------------------------------------------------
 
@@ -19,7 +18,6 @@ public class PlayerData
     public int RequiredXp { get { return requiredXp; } }  
     public int LevelBase { get { return levelBase; } }
     public int Lvl { get { return lvl; } }
-    //public List<BasketBall_spotData> Spots { get { return spots; } }
 
     //--------------------------------------------------------------
 
@@ -29,14 +27,6 @@ public class PlayerData
         requiredXp = player.RequiredXp;
         levelBase = player.LevelBase;
         lvl = player.Lvl;
-
-        //foreach(GameObject spotObject in player.Spots) {
-        //    BasketBall_spot basketBall_Spot = spotObject.GetComponent<BasketBall_spot>();
-        //    if(basketBall_Spot != null) {
-        //        BasketBall_spotData data = new BasketBall_spotData(basketBall_Spot);
-        //        Spots.Add(data);
-        //    }
-        //}
     }
 
 }

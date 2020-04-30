@@ -1,18 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Assertions;
 using UnityEngine.UI;
 
 public class ballScored : MonoBehaviour
 {
-
-    [SerializeField] private int bonus = 1;
-
-    [SerializeField] private int scoreRound = 0;
+    public static int scoreRound;
     private Text score;
 
-    private Text scoredText;
     private Animator scoredTextAnim;
 
     private Text ballValueTxt;
@@ -23,9 +18,8 @@ public class ballScored : MonoBehaviour
     {
         score = GameObject.Find("Text").GetComponent<Text>();
         ballValueTxt = GameObject.Find("DistanceTest").GetComponent<Text>();
-        scoredText = GameObject.Find("Scored Text").GetComponent<Text>();
         scoredTextAnim = GameObject.Find("Scored Text").GetComponent<Animator>();
-        scoredText.enabled = false;
+        scoreRound = 0;
     }
 
     void Update()
@@ -84,14 +78,14 @@ public class ballScored : MonoBehaviour
         GameManager.Instance.CurrentPlayer.AddXp(BallControl.finalBallValue);
         scoreRound += BallControl.finalBallValue;
         scoredTextAnim.SetBool("scored", true);
-        scoredText.text = "+" + BallControl.finalBallValue.ToString();
-        scoredText.enabled = true;
+        PlaceHoop.scoredText.text = "+" + BallControl.finalBallValue.ToString();
+        PlaceHoop.scoredText.enabled = true;
         gameObject.GetComponent<BoxCollider>().enabled = false;
 
         yield return new WaitForSeconds(2);
 
         scoredTextAnim.SetBool("scored", false);
-        scoredText.enabled = false;
+        PlaceHoop.scoredText.enabled = false;
         gameObject.GetComponent<BoxCollider>().enabled = true;
 
     }
