@@ -10,7 +10,6 @@ public class Player : MonoBehaviour
     [SerializeField] private int xp = 0; //Actual xp
     [SerializeField] private int requiredXp = 100; //What we need to get
     [SerializeField] private int levelBase = 50;
-    //[SerializeField] private List<GameObject> spots = new List<GameObject>(); //Collection of spots
     private int lvl = 1;
 
     private string path;

@@ -173,7 +173,7 @@ GameObject:
   - component: {fileID: 7484002706204190604}
   m_Layer: 0
   m_Name: ball_mapa_official
-  m_TagString: Untagged
+  m_TagString: Spot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -207,11 +207,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   position: {x: 0, y: 0, z: 0}
-  spawnRate: 0.1
-  catchRate: 0.1
-  attack: 0
-  defense: 0
-  index: 0
   spotTouchedSound: {fileID: 8300000, guid: 21fbb29be17724643a34eec30ee12cfd, type: 3}
 --- !u!82 &-1654563846716830609
 AudioSource:

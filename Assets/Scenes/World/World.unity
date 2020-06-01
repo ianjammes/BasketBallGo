@@ -2039,6 +2039,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 74ad9cd2e2022417da1f57e797097cc2, type: 2}
+    - target: {fileID: 1635556339993151999, guid: 35ce2bb4caba9434db5e656796b632b1,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.143
+      objectReference: {fileID: 0}
     - target: {fileID: 1972858774686598567, guid: 35ce2bb4caba9434db5e656796b632b1,
         type: 3}
       propertyPath: m_Name
@@ -2099,6 +2104,21 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 3259015423422887860, guid: 35ce2bb4caba9434db5e656796b632b1,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 253
+      objectReference: {fileID: 0}
+    - target: {fileID: 3259015423422887860, guid: 35ce2bb4caba9434db5e656796b632b1,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 164
+      objectReference: {fileID: 0}
+    - target: {fileID: 3259015423422887860, guid: 35ce2bb4caba9434db5e656796b632b1,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 4877497915544132302, guid: 35ce2bb4caba9434db5e656796b632b1,
         type: 3}
       propertyPath: m_Controller
@@ -2109,6 +2129,16 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 6aa39f4d3d1224d51a0b5e07b26f3218, type: 2}
+    - target: {fileID: 7114532657394043588, guid: 35ce2bb4caba9434db5e656796b632b1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7114532657394043588, guid: 35ce2bb4caba9434db5e656796b632b1,
+        type: 3}
+      propertyPath: m_TagString
+      value: Pull
+      objectReference: {fileID: 0}
     - target: {fileID: 8134201784657455605, guid: 35ce2bb4caba9434db5e656796b632b1,
         type: 3}
       propertyPath: m_Controller
@@ -2179,7 +2209,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1201058187}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7760043eea2cd452ba7117f2c97e0038, type: 3}
   m_Name: 
@@ -2372,6 +2402,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4a1d55baeb5d44028bde192c3fcc881, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1439643056 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7114532657394043588, guid: 35ce2bb4caba9434db5e656796b632b1,
+    type: 3}
+  m_PrefabInstance: {fileID: 1201058184}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &1439643060
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1439643056}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.17
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!21 &1448069664
 Material:
   serializedVersion: 6

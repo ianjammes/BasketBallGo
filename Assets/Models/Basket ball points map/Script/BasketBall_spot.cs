@@ -37,6 +37,7 @@ public class BasketBall_spot : MonoBehaviour
     [SerializeField] private AudioClip spotTouchedSound;
 
     private bool closeEnough = false;
+    public static int addNewSpotsAtLocation;
     private AudioSource audioSource;
 
     //private string path;
@@ -69,7 +70,13 @@ public class BasketBall_spot : MonoBehaviour
         {
             closeEnough = true;
         }
+
+        if (other.gameObject.CompareTag("Pull"))
+        {
+            addNewSpotsAtLocation = 1;
+        }
     }
+
 
     //Checking if the currently active scene contains a BasketBallGOSceneManager on the tapped spot
     private void OnMouseDown()
@@ -88,9 +95,9 @@ public class BasketBall_spot : MonoBehaviour
                     BasketSpotsFactory.listaI.RemoveAt(BasketSpotsFactory.listaI[i]);
 
                     //Deleting from saved data
-                    PlayerPrefs.DeleteKey("posX707" + i.ToString());
-                    PlayerPrefs.DeleteKey("posY707" + i.ToString());
-                    PlayerPrefs.DeleteKey("posZ707" + i.ToString());
+                    PlayerPrefs.DeleteKey("posX717" + i.ToString());
+                    PlayerPrefs.DeleteKey("posY717" + i.ToString());
+                    PlayerPrefs.DeleteKey("posZ717" + i.ToString());
                 }
             }
 
@@ -100,7 +107,7 @@ public class BasketBall_spot : MonoBehaviour
             Debug.Log(BasketSpotsFactory.contador);
 
             //Updating the spots number
-            PlayerPrefs.SetInt("spots707", BasketSpotsFactory.contador); //Update for the new scene
+            PlayerPrefs.SetInt("spots717", BasketSpotsFactory.contador); //Update for the new scene
             PlayerPrefs.Save();
 
             closeEnough = false;
